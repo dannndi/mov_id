@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mov_id/ui/pages/home_page.dart';
 import 'package:mov_id/ui/pages/login_page.dart';
+import 'package:mov_id/ui/pages/register_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -13,10 +14,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Movie ID',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.purple,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: LoginPage(),
+      routes: {
+        '/register_page': (context) => RegisterPage(),
+      },
     );
   }
 }
