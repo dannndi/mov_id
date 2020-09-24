@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mov_id/ui/pages/home_page.dart';
 import 'package:mov_id/ui/pages/login_page.dart';
 import 'package:mov_id/ui/pages/register_page.dart';
 
