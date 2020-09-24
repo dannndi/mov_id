@@ -3,7 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:mov_id/core/base/constant_variable.dart';
+import 'package:mov_id/core/models/register_user.dart';
+import 'package:mov_id/core/models/user.dart';
 import 'package:mov_id/core/services/base_services.dart';
+import 'package:mov_id/ui/widgets/buble_background.dart';
 import 'package:mov_id/ui/widgets/pick_image.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -26,6 +29,8 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
+      //floating action button still hide
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(
@@ -46,31 +51,37 @@ class _RegisterPageState extends State<RegisterPage> {
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
-      body: Scaffold(
-        body: Container(
-          height: ConstantVariable.deviceHeight(context),
-          width: ConstantVariable.deviceWidth(context),
-          child: Stack(
-            children: [
-              _background(context),
-              _content(context),
-            ],
-          ),
+      body: Container(
+        height: ConstantVariable.deviceHeight(context),
+        width: ConstantVariable.deviceWidth(context),
+        child: Stack(
+          children: [
+            bubleBackground(context),
+            _content(context),
+          ],
         ),
       ),
-    );
-  }
-
-  Widget _background(BuildContext context) {
-    return Positioned(
-      right: -100,
-      top: -100,
-      child: Container(
-        height: 250,
-        width: 250,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: //Button Register
+          Container(
+        height: 50,
+        width: ConstantVariable.deviceWidth(context),
+        margin: EdgeInsets.symmetric(horizontal: 24),
+        child: RaisedButton(
+          elevation: 0,
           color: ConstantVariable.primaryColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          onPressed: _goToRegisterPreferencePage,
+          child: Text(
+            'Next',
+            style: ConstantVariable.textFont.copyWith(
+              color: Colors.white,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ),
       ),
     );
@@ -222,29 +233,12 @@ class _RegisterPageState extends State<RegisterPage> {
                   ],
                 ),
               ),
-              SizedBox(height: 100),
-              //Button Register
-              Container(
-                height: 50,
-                width: ConstantVariable.deviceWidth(context),
-                child: RaisedButton(
-                  elevation: 0,
-                  color: ConstantVariable.primaryColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  onPressed: _goToRegisterPreferencePage,
-                  child: Text(
-                    'Next',
-                    style: ConstantVariable.textFont.copyWith(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 15),
+              SizedBox(height: 20),
+              //check if keyboard is visible or not
+              //..viewInsets.bottom > 0 means keyboard is visible
+              MediaQuery.of(context).viewInsets.bottom > 0
+                  ? SizedBox(height: MediaQuery.of(context).viewInsets.bottom)
+                  : SizedBox(),
             ],
           ),
         ),
@@ -324,15 +318,23 @@ class _RegisterPageState extends State<RegisterPage> {
 
   void _goToRegisterPreferencePage() {
     var _formState = _formKey.currentState;
-
     //save user input into variable
     _formState.save();
     if (_formState.validate()) {
       //Push to RegisterPreferencePage
 
-      print(_fullName);
-      print(_email);
-      print(_password);
+      var registerUser = RegisterUser(
+        name: _fullName,
+        email: _email,
+        password: _password,
+      );
+
+      //Navigate Page
+      Navigator.pushNamed(
+        context,
+        '/register_preference_page',
+        arguments: registerUser,
+      );
     }
   }
 }

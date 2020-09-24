@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:mov_id/core/base/constant_variable.dart';
+import 'package:mov_id/ui/widgets/buble_background.dart';
 import 'package:mov_id/ui/widgets/error_message.dart';
 
 class LoginPage extends StatefulWidget {
@@ -25,24 +26,9 @@ class _LoginPageState extends State<LoginPage> {
         width: ConstantVariable.deviceWidth(context),
         child: Stack(
           children: [
-            _background(context),
+            bubleBackground(context),
             _content(context),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget _background(BuildContext context) {
-    return Positioned(
-      right: -100,
-      top: -100,
-      child: Container(
-        height: 250,
-        width: 250,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: ConstantVariable.primaryColor,
         ),
       ),
     );
