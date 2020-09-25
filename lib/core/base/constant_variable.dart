@@ -17,12 +17,12 @@ class ConstantVariable {
 
   //font
   static TextStyle textFont = GoogleFonts.montserrat().copyWith(
-    fontSize: 12,
+    fontSize: 14,
     color: Colors.black,
     fontWeight: FontWeight.normal,
   );
   static TextStyle numbberFont = GoogleFonts.openSans().copyWith(
-    fontSize: 12,
+    fontSize: 14,
     color: Colors.black,
     fontWeight: FontWeight.normal,
   );

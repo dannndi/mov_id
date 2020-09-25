@@ -110,7 +110,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       cursorColor: Colors.purple,
                       validator: (value) {
                         if (value.isEmpty) {
-                          return 'Name shoudn\'n be empty';
+                          return 'Name shoudn\'t be empty';
                         }
                         //if validated
                         return null;
@@ -135,7 +135,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       cursorColor: Colors.purple,
                       validator: (value) {
                         if (value.isEmpty) {
-                          return 'E-mail address shoudn\'n be empty';
+                          return 'E-mail address shoudn\'t be empty';
                         }
                         //if validated
                         return null;
@@ -212,7 +212,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       },
                       decoration: InputDecoration(
                         prefixIcon: Icon(MdiIcons.lockOutline),
-                        labelText: 'Password',
+                        labelText: 'Confirmation Password',
                         hintText: '*********',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -327,6 +327,7 @@ class _RegisterPageState extends State<RegisterPage> {
         name: _fullName,
         email: _email,
         password: _password,
+        profilePicture: _image,
       );
 
       //Navigate Page

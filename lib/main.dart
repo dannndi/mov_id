@@ -1,10 +1,18 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:mov_id/core/services/firebase_auth_services.dart';
+import 'package:mov_id/ui/pages/home_page.dart';
 import 'package:mov_id/ui/pages/login_page.dart';
 import 'package:mov_id/ui/pages/register_confirmation_page.dart';
 import 'package:mov_id/ui/pages/register_page.dart';
 import 'package:mov_id/ui/pages/register_preference_page.dart';
+import 'package:mov_id/ui/pages/wrapper.dart';
+import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -12,18 +20,28 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Movie ID',
-      theme: ThemeData(
-        primarySwatch: Colors.purple,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+    return MultiProvider(
+      providers: [
+        StreamProvider<User>.value(value: FirebaseAuthServices.userStream),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Movie ID',
+        theme: ThemeData(
+          primarySwatch: Colors.deepPurple,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        home: Wrapper(),
+        routes: {
+          '/wrapper': (context) => Wrapper(),
+          '/login_page': (context) => LoginPage(),
+          '/register_page': (context) => RegisterPage(),
+          '/register_preference_page': (context) => RegisterPreferencePage(),
+          '/register_confirmation_page': (context) =>
+              RegisterConfirmationPage(),
+          '/main_page': (context) => HomePage(),
+        },
       ),
-      home: LoginPage(),
-      routes: {
-        '/register_page': (context) => RegisterPage(),
-        '/register_preference_page': (context) => RegisterPreferencePage(),
-        '/register_confirmation_page': (context) => RegisterConfirmationPage(),
-      },
     );
   }
 }

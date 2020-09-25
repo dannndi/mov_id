@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:mov_id/core/base/constant_variable.dart';
+import 'package:mov_id/core/services/firebase_auth_services.dart';
 import 'package:mov_id/ui/widgets/buble_background.dart';
 import 'package:mov_id/ui/widgets/error_message.dart';
 
@@ -238,13 +239,15 @@ class _LoginPageState extends State<LoginPage> {
     //check validation textformfield
     if (_formState.validate()) {
       //try to login
-      await Future.delayed(Duration(seconds: 2));
+      var _result =
+          await FirebaseAuthServices.login(email: _email, password: _password);
       //check login status and show message if error occured
-      if (true) {
-        //
-      } else {
+      if (_result.errorMessage != null) {
         //
         errorMessage(message: 'Yoyoooo', context: context);
+      } else {
+        //
+        Navigator.pushReplacementNamed(context, '/wrapper');
       }
     }
     setState(() {

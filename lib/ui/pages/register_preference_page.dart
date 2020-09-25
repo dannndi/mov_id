@@ -215,8 +215,8 @@ class _RegisterPreferencePageState extends State<RegisterPreferencePage> {
         context,
         '/register_confirmation_page',
         arguments: _registerUser.copyWith(
-          selectedLanguage: selectedLanguage,
-          selectedGenres: selectedPreferedGenres,
+          language: selectedLanguage,
+          preferedGenres: selectedPreferedGenres,
         ),
       );
     }
