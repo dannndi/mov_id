@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mov_id/core/services/firebase_auth_services.dart';
-import 'package:mov_id/core/services/movie_services.dart';
 
-class HomePage extends StatefulWidget {
+class ProfilePage extends StatefulWidget {
   @override
-  _HomePageState createState() => _HomePageState();
+  _ProfilePageState createState() => _ProfilePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,7 +15,9 @@ class _HomePageState extends State<HomePage> {
           child: RaisedButton(
             child: Text('Logout'),
             onPressed: () {
-              MovieServices.getNowPlaying();
+              FirebaseAuthServices.logout();
+              Navigator.pushNamedAndRemoveUntil(
+                  context, '/login_page', (route) => false);
             },
           ),
         ),

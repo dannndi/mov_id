@@ -2,8 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:mov_id/core/services/firebase_auth_services.dart';
-import 'package:mov_id/ui/pages/home_page.dart';
 import 'package:mov_id/ui/pages/login_page.dart';
+import 'package:mov_id/ui/pages/main_page.dart';
 import 'package:mov_id/ui/pages/register_confirmation_page.dart';
 import 'package:mov_id/ui/pages/register_page.dart';
 import 'package:mov_id/ui/pages/register_preference_page.dart';
@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
           '/register_preference_page': (context) => RegisterPreferencePage(),
           '/register_confirmation_page': (context) =>
               RegisterConfirmationPage(),
-          '/main_page': (context) => HomePage(),
+          '/main_page': (context) => MainPage(),
         },
       ),
     );

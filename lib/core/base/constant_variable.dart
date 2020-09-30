@@ -29,5 +29,6 @@ class ConstantVariable {
 
   //API
   static String apiKey = '9c4321103577c8fe48972c0207dc1cba';
-  static String imageBaseUrl = 'https://image.tmdb.org/t/p/';
+  static String imageBaseUrl = 'https://image.tmdb.org/t/p/%size%/%path%';
+  static String baseUrl = "https://api.themoviedb.org/3/movie/%type%";
 }

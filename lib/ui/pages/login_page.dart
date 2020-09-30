@@ -244,7 +244,7 @@ class _LoginPageState extends State<LoginPage> {
       //check login status and show message if error occured
       if (_result.errorMessage != null) {
         //
-        errorMessage(message: 'Yoyoooo', context: context);
+        errorMessage(message: _result.errorMessage, context: context);
       } else {
         //
         Navigator.pushReplacementNamed(context, '/wrapper');
