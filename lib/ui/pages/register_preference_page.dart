@@ -83,7 +83,7 @@ class _RegisterPreferencePageState extends State<RegisterPreferencePage> {
         margin: EdgeInsets.symmetric(horizontal: 24),
         child: RaisedButton(
           elevation: 0,
-          color: ConstantVariable.primaryColor,
+          color: ConstantVariable.accentColor2,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
@@ -144,9 +144,7 @@ class _RegisterPreferencePageState extends State<RegisterPreferencePage> {
                 (language) => SelectableBox(
                   height: 60,
                   width: (ConstantVariable.deviceWidth(context) - 72) / 2,
-                  title: Center(
-                    child: Text(language),
-                  ),
+                  title: language,
                   isSelected: selectedLanguage == language,
                   onTap: () {
                     if (selectedLanguage == language) {
@@ -183,9 +181,7 @@ class _RegisterPreferencePageState extends State<RegisterPreferencePage> {
               (genre) => SelectableBox(
                 height: 60,
                 width: (ConstantVariable.deviceWidth(context) - 72) / 2,
-                title: Center(
-                  child: Text(genre),
-                ),
+                title: genre,
                 isSelected: selectedPreferedGenres.contains(genre),
                 onTap: () {
                   if (selectedPreferedGenres.contains(genre)) {

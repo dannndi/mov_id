@@ -4,7 +4,7 @@ import 'package:mov_id/core/base/constant_variable.dart';
 class SelectableBox extends StatelessWidget {
   final double height;
   final double width;
-  final Widget title;
+  final String title;
   final bool isEnable;
   final bool isSelected;
   final Function onTap;
@@ -33,18 +33,27 @@ class SelectableBox extends StatelessWidget {
         width: width,
         decoration: BoxDecoration(
           color: isEnable
-              ? isSelected ? ConstantVariable.accentColor2 : Colors.transparent
+              ? isSelected ? ConstantVariable.primaryColor : Colors.transparent
               : ConstantVariable.accentColor3,
           borderRadius: BorderRadius.circular(10),
           border: Border.all(
             color: isEnable
                 ? isSelected
-                    ? ConstantVariable.accentColor2
+                    ? ConstantVariable.primaryColor
                     : ConstantVariable.accentColor3
                 : ConstantVariable.accentColor3,
           ),
         ),
-        child: title,
+        child: Center(
+          child: Text(
+            title,
+            style: ConstantVariable.textFont.copyWith(
+              color: isEnable
+                  ? isSelected ? Colors.white : Colors.black
+                  : ConstantVariable.accentColor3,
+            ),
+          ),
+        ),
       ),
     );
   }

@@ -57,12 +57,12 @@ class _RegisterConfirmationPageState extends State<RegisterConfirmationPage> {
         margin: EdgeInsets.symmetric(horizontal: 24),
         child: _isLoading
             ? SpinKitThreeBounce(
-                color: ConstantVariable.primaryColor,
+                color: ConstantVariable.accentColor2,
                 size: 15,
               )
             : RaisedButton(
                 elevation: 0,
-                color: ConstantVariable.primaryColor,
+                color: ConstantVariable.accentColor2,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),

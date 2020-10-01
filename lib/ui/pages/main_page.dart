@@ -23,14 +23,13 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: _pages[_selectedIndex],
-      ),
+      extendBodyBehindAppBar: true,
+      body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.white,
         elevation: 0,
-        selectedItemColor: ConstantVariable.primaryColor,
+        selectedItemColor: ConstantVariable.accentColor4,
         unselectedItemColor: ConstantVariable.accentColor3.withOpacity(0.7),
         selectedIconTheme: IconThemeData(
           size: 30,

@@ -27,63 +27,12 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      //floating action button still hide
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: Colors.black,
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        title: Text(
-          'Register your data ',
-          style: ConstantVariable.textFont.copyWith(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-      ),
-      body: Container(
-        height: ConstantVariable.deviceHeight(context),
-        width: ConstantVariable.deviceWidth(context),
-        child: Stack(
-          children: [
-            bubleBackground(context),
-            _content(context),
-          ],
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: //Button Register
-          Container(
-        height: 50,
-        width: ConstantVariable.deviceWidth(context),
-        margin: EdgeInsets.symmetric(horizontal: 24),
-        child: RaisedButton(
-          elevation: 0,
-          color: ConstantVariable.primaryColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          onPressed: _goToRegisterPreferencePage,
-          child: Text(
-            'Next',
-            style: ConstantVariable.textFont.copyWith(
-              color: Colors.white,
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-      ),
+    return Container(
+      height: ConstantVariable.deviceHeight(context) -
+          (ConstantVariable.deviceHeight(context) * 0.07) -
+          120,
+      width: ConstantVariable.deviceWidth(context),
+      child: _content(context),
     );
   }
 
@@ -91,7 +40,7 @@ class _RegisterPageState extends State<RegisterPage> {
     return SafeArea(
       child: SingleChildScrollView(
         child: Container(
-          margin: EdgeInsets.only(left: 24, right: 24, top: 24),
+          margin: EdgeInsets.only(top: 24),
           child: Column(
             children: [
               //Image Picker
@@ -239,6 +188,27 @@ class _RegisterPageState extends State<RegisterPage> {
               MediaQuery.of(context).viewInsets.bottom > 0
                   ? SizedBox(height: MediaQuery.of(context).viewInsets.bottom)
                   : SizedBox(),
+              SizedBox(height: 40),
+              Container(
+                height: 50,
+                width: ConstantVariable.deviceWidth(context),
+                child: RaisedButton(
+                  elevation: 0,
+                  color: ConstantVariable.accentColor2,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  onPressed: _goToRegisterPreferencePage,
+                  child: Text(
+                    'Next',
+                    style: ConstantVariable.textFont.copyWith(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
