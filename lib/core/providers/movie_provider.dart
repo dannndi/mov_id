@@ -24,7 +24,7 @@ class MovieProvider extends ChangeNotifier {
   void getComingSoon() async {
     var _result = await MovieServices.getComingSoon();
     if (_result.error == null) {
-      _nowPlayingMovies = _result.movies;
+      _comingSoonMovies = _result.movies;
     }
     notifyListeners();
   }

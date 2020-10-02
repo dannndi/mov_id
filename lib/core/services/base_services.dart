@@ -1,5 +1,6 @@
 import 'dart:io';
-
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:path/path.dart';
 import 'package:image_picker/image_picker.dart';
 
 enum PickType {
@@ -18,5 +19,14 @@ class BaseServices {
       return File(image.path);
     }
     return null;
+  }
+
+  //Upload Image
+  static Future<String> uploadImageToFireStore(File file) async {
+    String fileName = basename(file.path);
+    var ref = FirebaseStorage.instance.ref().child(fileName);
+    var task = ref.putFile(file);
+    var onComplete = await task.onComplete;
+    return await onComplete.ref.getDownloadURL();
   }
 }

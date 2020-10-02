@@ -10,4 +10,19 @@ class UserProvider extends ChangeNotifier {
     _userApp = await FirebaseStorageServices.getData(uid);
     notifyListeners();
   }
+
+  void updateUser({String name, int balance, String profilePicture}) async {
+    var newData = _userApp.copyWith(
+      name: name,
+      balance: balance,
+      profilePicture: profilePicture,
+    );
+    _userApp = newData;
+    await FirebaseStorageServices.setData(newData);
+    notifyListeners();
+  }
+
+  void clearUser() {
+    _userApp = null;
+  }
 }

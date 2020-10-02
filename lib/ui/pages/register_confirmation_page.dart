@@ -217,6 +217,10 @@ class _RegisterConfirmationPageState extends State<RegisterConfirmationPage> {
         message: 'Register success, Loging in......',
         flushbarPosition: FlushbarPosition.TOP,
       ).show(context);
+      //*
+      //*
+      ConstantVariable.profilePictureToUpdate = _registerUser.profilePicture;
+
       //
       Future.delayed(Duration(seconds: 2), () {
         Navigator.pushNamedAndRemoveUntil(

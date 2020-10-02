@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -32,4 +34,7 @@ class ConstantVariable {
   static String apiKey = '9c4321103577c8fe48972c0207dc1cba';
   static String imageBaseUrl = 'https://image.tmdb.org/t/p/%size%/%path%';
   static String baseUrl = "https://api.themoviedb.org/3/movie/%type%";
+
+  //* etc
+  static File profilePictureToUpdate;
 }
