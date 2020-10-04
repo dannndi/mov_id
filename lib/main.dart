@@ -1,11 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mov_id/core/providers/movie_provider.dart';
 import 'package:mov_id/core/providers/user_provider.dart';
 import 'package:mov_id/core/services/firebase_auth_services.dart';
 import 'package:mov_id/ui/pages/login_page.dart';
 import 'package:mov_id/ui/pages/main_page.dart';
+import 'package:mov_id/ui/pages/movie_detail_page.dart';
 import 'package:mov_id/ui/pages/register_confirmation_page.dart';
 import 'package:mov_id/ui/pages/register_page.dart';
 import 'package:mov_id/ui/pages/register_preference_page.dart';
@@ -22,6 +24,16 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    //Mengunci orientation layar ke potrait (only work for androids???)
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.portraitUp,
+    ]);
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+      ),
+    );
     return MultiProvider(
       providers: [
         StreamProvider<User>.value(value: FirebaseAuthServices.userStream),
@@ -44,6 +56,7 @@ class MyApp extends StatelessWidget {
           '/register_confirmation_page': (context) =>
               RegisterConfirmationPage(),
           '/main_page': (context) => MainPage(),
+          '/movie_detail_page': (context) => MovieDetailPage(),
         },
       ),
     );

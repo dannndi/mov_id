@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -397,113 +398,106 @@ class _HomePageState extends State<HomePage> {
     int index,
     List<Movie> movies,
   ) {
-    return Container(
-      height: 330,
-      width: 190,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            height: 270,
-            width: 190,
-            margin: EdgeInsets.only(
-              bottom: 5,
-            ),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              color: ConstantVariable.primaryColor.withOpacity(0.5),
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: NetworkImage(
-                  ConstantVariable.imageBaseUrl
-                      .replaceAll('%size%', 'w154')
-                      .replaceAll(
-                        '/%path%',
-                        movies[index].posterPath,
-                      ),
-                ),
+    return GestureDetector(
+      onTap: () {
+        Provider.of<MovieProvider>(context, listen: false).clearMovieDetail();
+        Navigator.pushNamed(
+          context,
+          '/movie_detail_page',
+          arguments: movies[index].id,
+        );
+      },
+      child: Container(
+        height: 330,
+        width: 190,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: 270,
+              width: 190,
+              margin: EdgeInsets.only(
+                bottom: 5,
               ),
-            ),
-          ),
-          Container(
-            width: 190,
-            child: Center(
-              child: Text(
-                movies[index].title,
-                style: ConstantVariable.textFont.copyWith(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 21,
-                ),
-                maxLines: 1,
-                overflow: TextOverflow.clip,
-              ),
-            ),
-          ),
-          Container(
-            width: 190,
-            alignment: Alignment.center,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-                  decoration: BoxDecoration(
-                    color: Colors.blue,
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Row(
-                    children: [
-                      Icon(Icons.star, color: Colors.yellow, size: 15),
-                      Text(
-                        movies[index].voteAverage.toString(),
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                color: ConstantVariable.primaryColor.withOpacity(0.5),
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: NetworkImage(
+                    ConstantVariable.imageBaseUrl
+                        .replaceAll('%size%', 'w154')
+                        .replaceAll(
+                          '/%path%',
+                          movies[index].posterPath,
                         ),
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              width: 190,
+              child: Center(
+                child: Text(
+                  movies[index].title,
+                  style: ConstantVariable.textFont.copyWith(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 21,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.clip,
+                ),
+              ),
+            ),
+            Container(
+              width: 190,
+              alignment: Alignment.center,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                    decoration: BoxDecoration(
+                      color: Colors.blue,
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(Icons.star, color: Colors.yellow, size: 15),
+                        Text(
+                          movies[index].voteAverage.toString(),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 5),
+                    padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Colors.yellow,
+                          Colors.black,
+                        ],
+                        stops: [
+                          0.4,
+                          1,
+                        ],
                       ),
-                    ],
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 5),
-                  padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        Colors.yellow,
-                        Colors.black,
-                      ],
-                      stops: [
-                        0.4,
-                        1,
-                      ],
+                      borderRadius: BorderRadius.circular(15),
                     ),
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Text(
-                    'XXI',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
+                    child: Text(
+                      'XXI',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                ),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 5),
-                  padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-                  decoration: BoxDecoration(
-                    color: Colors.red,
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Text(
-                    'CGV',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                if (movies[index].adult)
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: 5),
                     padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2),
@@ -512,17 +506,34 @@ class _HomePageState extends State<HomePage> {
                       borderRadius: BorderRadius.circular(15),
                     ),
                     child: Text(
-                      '18+',
+                      'CGV',
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
-              ],
-            ),
-          )
-        ],
+                  if (movies[index].adult)
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 5),
+                      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Text(
+                        '18+',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

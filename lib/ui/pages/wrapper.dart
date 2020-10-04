@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:mov_id/core/base/constant_variable.dart';
+import 'package:mov_id/core/providers/movie_provider.dart';
 import 'package:mov_id/core/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -23,6 +24,8 @@ class _WrapperState extends State<Wrapper> {
       } else {
         //* clear user if in case theis's still user in userProvider
         Provider.of<UserProvider>(context, listen: false).clearUser();
+        Provider.of<MovieProvider>(context, listen: false).clearMovie();
+        //*
         Navigator.pushReplacementNamed(context, '/main_page');
       }
     });
