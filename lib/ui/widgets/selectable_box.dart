@@ -34,24 +34,23 @@ class SelectableBox extends StatelessWidget {
         decoration: BoxDecoration(
           color: isEnable
               ? isSelected ? ConstantVariable.primaryColor : Colors.transparent
-              : ConstantVariable.accentColor3,
+              : ConstantVariable.accentColor3.withOpacity(0.5),
           borderRadius: BorderRadius.circular(10),
           border: Border.all(
             color: isEnable
                 ? isSelected
                     ? ConstantVariable.primaryColor
                     : ConstantVariable.accentColor3
-                : ConstantVariable.accentColor3,
+                : ConstantVariable.accentColor3.withOpacity(0.5),
           ),
         ),
         child: Center(
           child: Text(
             title,
             style: ConstantVariable.textFont.copyWith(
-              color: isEnable
-                  ? isSelected ? Colors.white : Colors.black
-                  : ConstantVariable.accentColor3,
-            ),
+                color: isEnable
+                    ? isSelected ? Colors.white : Colors.black
+                    : ConstantVariable.accentColor3.withOpacity(0.5)),
           ),
         ),
       ),

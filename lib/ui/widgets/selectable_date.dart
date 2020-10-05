@@ -17,19 +17,21 @@ class SelectableDate extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        height: isSelected ? 100 : 80,
-        width: isSelected ? 80 : 60,
+        height: isSelected ? 80 : 80,
+        width: isSelected ? 90 : 60,
         color: Colors.transparent,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              date.shortDayName,
+              isSelected ? date.fullDayName : date.shortDayName,
               style: ConstantVariable.textFont.copyWith(
                 color: isSelected ? Colors.black : Colors.grey,
                 fontSize: 17,
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
               ),
+              maxLines: 1,
+              textAlign: TextAlign.center,
             ),
             SizedBox(height: isSelected ? 15 : 10),
             Text(
@@ -42,21 +44,22 @@ class SelectableDate extends StatelessWidget {
             ),
             SizedBox(height: isSelected ? 15 : 0),
             Align(
-                alignment: Alignment.bottomCenter,
-                child: AnimatedContainer(
-                  duration: Duration(milliseconds: 200),
-                  height: isSelected ? 5 : 0,
-                  width: isSelected ? 25 : 0,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(10),
-                      topRight: Radius.circular(10),
-                    ),
-                    color: isSelected
-                        ? ConstantVariable.accentColor4
-                        : Colors.transparent,
+              alignment: Alignment.bottomCenter,
+              child: AnimatedContainer(
+                duration: Duration(milliseconds: 200),
+                height: isSelected ? 5 : 0,
+                width: isSelected ? 25 : 0,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10),
                   ),
-                )),
+                  color: isSelected
+                      ? ConstantVariable.accentColor4
+                      : Colors.transparent,
+                ),
+              ),
+            ),
           ],
         ),
       ),
