@@ -11,6 +11,7 @@ import 'package:mov_id/ui/pages/movie_detail_page.dart';
 import 'package:mov_id/ui/pages/register_confirmation_page.dart';
 import 'package:mov_id/ui/pages/register_page.dart';
 import 'package:mov_id/ui/pages/register_preference_page.dart';
+import 'package:mov_id/ui/pages/select_seat_page.dart';
 import 'package:mov_id/ui/pages/wrapper.dart';
 import 'package:provider/provider.dart';
 
@@ -57,6 +58,7 @@ class MyApp extends StatelessWidget {
               RegisterConfirmationPage(),
           '/main_page': (context) => MainPage(),
           '/movie_detail_page': (context) => MovieDetailPage(),
+          '/select_seat_page': (context) => SelectSeatPage(),
         },
       ),
     );

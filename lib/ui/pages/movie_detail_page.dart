@@ -1,8 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:mov_id/core/base/constant_variable.dart';
 import 'package:mov_id/core/models/cinema.dart';
 import 'package:mov_id/core/models/movie_detail.dart';
+import 'package:mov_id/core/models/ticket.dart';
 import 'package:mov_id/core/providers/movie_provider.dart';
 import 'package:mov_id/ui/widgets/error_message.dart';
 import 'package:mov_id/ui/widgets/selectable_box.dart';
@@ -45,7 +47,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
     } else {
       setState(() {
         _appbarColor = Colors.transparent;
-        _titleColor = Colors.white;
+        _titleColor = Colors.transparent;
         _arrowColor = Colors.black;
         title = null;
       });
@@ -262,7 +264,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                   _selectSeatPage(context);
                 },
                 child: Text(
-                  'Confirm Registration',
+                  'Continue to Book',
                   style: ConstantVariable.textFont.copyWith(
                     color: Colors.white,
                     fontSize: 18,
@@ -496,16 +498,22 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
       errorMessage(
           message: 'Please choose time in order to continue', context: context);
     } else {
-      DateTime date = DateTime(
+      DateTime _date = DateTime(
         _selectedDate.year,
         _selectedDate.month,
         _selectedDate.day,
         _selectedHour,
       );
-      print(movie.title);
-      print(date.toString());
-      print(_selectedCinema.name);
-      print(_selectedHour.toString());
+
+      //* Create new Ticket
+      var ticket = Ticket(
+        movieDetail: movie,
+        cinema: _selectedCinema,
+        date: _date,
+      );
+
+      //* Navigate
+      Navigator.pushNamed(context, '/select_seat_page', arguments: ticket);
     }
   }
 }
