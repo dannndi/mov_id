@@ -3,56 +3,60 @@ import 'package:mov_id/core/models/cinema.dart';
 import 'package:mov_id/core/models/movie_detail.dart';
 
 class Ticket extends Equatable {
-  final String id;
   final String userId;
+  final String userName;
   final MovieDetail movieDetail;
   final Cinema cinema;
-  final DateTime date;
+  final DateTime bookedDate;
   final List<String> seats;
-  final int pricePerSeat;
   final int totalPrice;
+  final String bookingCode;
+  final DateTime dateOfBuying;
 
   Ticket({
-    this.id,
     this.userId,
+    this.userName,
     this.movieDetail,
     this.cinema,
-    this.date,
+    this.bookedDate,
     this.seats,
-    this.pricePerSeat,
     this.totalPrice,
+    this.bookingCode,
+    this.dateOfBuying,
   });
 
-  Ticket copywith(
-      {String id,
-      String userId,
-      MovieDetail movieDetail,
-      Cinema cinema,
-      DateTime date,
-      List<String> seats,
-      int pricePerSeat,
-      int totalPrice}) {
+  Ticket copywith({
+    String id,
+    String username,
+    MovieDetail movieDetail,
+    Cinema cinema,
+    DateTime bookedDate,
+    List<String> seats,
+    int totalPrice,
+    String bookingCode,
+    DateTime dateOfBuying,
+  }) {
     return Ticket(
-      id: id ?? this.id,
-      userId: userId ?? this.userId,
+      userName: username ?? this.userName,
+      userId: id ?? this.userId,
       movieDetail: movieDetail ?? this.movieDetail,
       cinema: cinema ?? this.cinema,
-      date: date ?? this.date,
+      bookedDate: bookedDate ?? this.bookedDate,
       seats: seats ?? this.seats,
-      pricePerSeat: pricePerSeat ?? this.pricePerSeat,
       totalPrice: totalPrice ?? this.totalPrice,
+      bookingCode: bookingCode ?? this.bookingCode,
+      dateOfBuying: dateOfBuying ?? this.dateOfBuying,
     );
   }
 
   @override
   List<Object> get props => [
-        id,
+        userName,
         userId,
         movieDetail,
         cinema,
-        date,
+        bookedDate,
         seats,
-        pricePerSeat,
         totalPrice,
       ];
 }

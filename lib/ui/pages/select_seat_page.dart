@@ -239,5 +239,10 @@ class _SelectSeatPageState extends State<SelectSeatPage> {
     }
   }
 
-  void _goToComfirmationPage(BuildContext context) {}
+  void _goToComfirmationPage(BuildContext context) {
+    _selectedSeat.sort();
+    ticket = ticket.copywith(totalPrice: totalPrice, seats: _selectedSeat);
+    Navigator.pushNamed(context, '/booking_confirmation_page',
+        arguments: ticket);
+  }
 }

@@ -7,6 +7,7 @@ import 'package:mov_id/core/models/movie_detail.dart';
 import 'package:mov_id/core/models/ticket.dart';
 import 'package:mov_id/core/providers/movie_provider.dart';
 import 'package:mov_id/ui/widgets/error_message.dart';
+import 'package:mov_id/ui/widgets/generate_rating_stars.dart';
 import 'package:mov_id/ui/widgets/selectable_box.dart';
 import 'package:mov_id/ui/widgets/selectable_date.dart';
 import 'package:mov_id/ui/widgets/toogle_text.dart';
@@ -144,7 +145,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                 Container(
                   height: 40,
                   margin: EdgeInsets.only(left: 20),
-                  child: _generateStar(movie.voteAverage),
+                  child: generateStar(movie.voteAverage),
                 ),
                 Container(
                   height: 90,
@@ -388,7 +389,8 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                     height: 45,
                     width: (ConstantVariable.deviceWidth(context) - 70) / 3,
                     title: hour <= 9 ? '0$hour:00' : '$hour:00',
-                    isEnable: hour > DateTime.now().hour,
+                    isEnable: hour > DateTime.now().hour ||
+                        _selectedDate.day != DateTime.now().day,
                     isSelected: _selectedHour == hour,
                     onTap: () {
                       setState(() {
@@ -421,38 +423,6 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
             letterSpacing: 0.5,
             wordSpacing: 0.5,
           ),
-        ),
-      ],
-    );
-  }
-
-  Widget _generateStar(double rating) {
-    List<Widget> list = List();
-
-    for (var i = 0; i < 5; i++) {
-      if (i < (rating / 2).round()) {
-        list.add(Icon(
-          Icons.star,
-          color: Colors.amber,
-          size: 15,
-        ));
-      } else {
-        list.add(Icon(
-          Icons.star_border,
-          color: Colors.amber,
-          size: 15,
-        ));
-      }
-    }
-
-    return Row(
-      children: [
-        ...list,
-        SizedBox(
-          width: 10,
-        ),
-        Text(
-          rating.toString(),
         ),
       ],
     );
@@ -509,7 +479,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
       var ticket = Ticket(
         movieDetail: movie,
         cinema: _selectedCinema,
-        date: _date,
+        bookedDate: _date,
       );
 
       //* Navigate
