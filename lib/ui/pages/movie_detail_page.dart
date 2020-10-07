@@ -6,6 +6,7 @@ import 'package:mov_id/core/models/cinema.dart';
 import 'package:mov_id/core/models/movie_detail.dart';
 import 'package:mov_id/core/models/ticket.dart';
 import 'package:mov_id/core/providers/movie_provider.dart';
+import 'package:mov_id/core/services/firebase_storage_services.dart';
 import 'package:mov_id/ui/widgets/error_message.dart';
 import 'package:mov_id/ui/widgets/generate_rating_stars.dart';
 import 'package:mov_id/ui/widgets/selectable_box.dart';
@@ -456,7 +457,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
   }
 
   //* methode
-  void _selectSeatPage(BuildContext context) {
+  void _selectSeatPage(BuildContext context) async {
     if (_selectedDate == null) {
       errorMessage(
           message: 'Please choose date in order to continue', context: context);
@@ -483,7 +484,12 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
       );
 
       //* Navigate
-      Navigator.pushNamed(context, '/select_seat_page', arguments: ticket);
+      var bookedSeat = await FirebaseStorageServices.getTicket(ticket);
+
+      Navigator.pushNamed(context, '/select_seat_page', arguments: {
+        'ticket': ticket,
+        'booked_seats': bookedSeat,
+      });
     }
   }
 }

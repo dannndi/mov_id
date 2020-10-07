@@ -128,7 +128,7 @@ class _HomePageState extends State<HomePage> {
     return Container(
       padding: EdgeInsets.all(20),
       margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
-      height: 150,
+      // height: 150,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(15),

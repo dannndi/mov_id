@@ -8,6 +8,9 @@ import 'package:mov_id/core/services/movie_services.dart';
 class FirebaseStorageServices {
   //base path colection for user
   static var _userCollection = FirebaseFirestore.instance.collection('users');
+  //base path collection for all ticket (seat)
+  static var _ticketSeatCollection =
+      FirebaseFirestore.instance.collection('ticket_seat');
 
   //set data can be add new data or replace existing data
   static Future<void> setData(UserApp userApp) {
@@ -38,7 +41,8 @@ class FirebaseStorageServices {
     );
   }
 
-  static Future<void> addUserTicket(Ticket ticket) async {
+  static Future<void> addUserTicket(Ticket ticket,
+      {List<String> oldSeat}) async {
     var _userTicketCollection =
         _userCollection.doc(ticket.userId).collection('ticket');
     await _userTicketCollection.doc().set({
@@ -50,6 +54,9 @@ class FirebaseStorageServices {
       'total_price': ticket.totalPrice,
       'date_of_buying': ticket.dateOfBuying.millisecondsSinceEpoch,
     });
+
+    //set booked ticket to global
+    await setTicket(ticket: ticket, oldSeat: oldSeat);
   }
 
   static Future<List<Ticket>> getUserTicket(String userId) async {
@@ -82,5 +89,45 @@ class FirebaseStorageServices {
       );
     }
     return ticketList;
+  }
+
+  static Future<void> setTicket({Ticket ticket, List<String> oldSeat}) async {
+    var cinema = ticket.cinema.name;
+    var movieId = ticket.movieDetail.id.toString();
+    var dateTime = ticket.bookedDate.millisecondsSinceEpoch.toString();
+
+    var seats = [...oldSeat, ...ticket.seats];
+    await _ticketSeatCollection
+        .doc(cinema)
+        .collection(movieId)
+        .doc(dateTime)
+        .set(
+      {
+        'seats': seats,
+      },
+    );
+  }
+
+  static Future<List<String>> getTicket(Ticket ticket) async {
+    var seats = List<String>();
+    var cinema = ticket.cinema.name;
+    var movieId = ticket.movieDetail.id.toString();
+    var dateTime = ticket.bookedDate.millisecondsSinceEpoch.toString();
+    try {
+      var result = await _ticketSeatCollection
+          .doc(cinema)
+          .collection(movieId)
+          .doc(dateTime)
+          .get();
+
+      if (result.data() != null) {
+        seats = (result.data()['seats'] as List)
+            .map((seat) => seat.toString())
+            .toList();
+      }
+      return seats;
+    } catch (e) {
+      return [];
+    }
   }
 }

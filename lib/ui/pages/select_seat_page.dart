@@ -19,7 +19,11 @@ class _SelectSeatPageState extends State<SelectSeatPage> {
   var totalPrice = 0;
   @override
   Widget build(BuildContext context) {
-    ticket = ModalRoute.of(context).settings.arguments;
+    var argument =
+        ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
+
+    ticket = argument['ticket'];
+    _bookedSeat = argument['booked_seats'] as List<String> ?? [];
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -242,7 +246,9 @@ class _SelectSeatPageState extends State<SelectSeatPage> {
   void _goToComfirmationPage(BuildContext context) {
     _selectedSeat.sort();
     ticket = ticket.copywith(totalPrice: totalPrice, seats: _selectedSeat);
-    Navigator.pushNamed(context, '/booking_confirmation_page',
-        arguments: ticket);
+    Navigator.pushNamed(context, '/booking_confirmation_page', arguments: {
+      'ticket': ticket,
+      'booked_seat': _bookedSeat,
+    });
   }
 }

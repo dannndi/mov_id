@@ -18,9 +18,14 @@ class _BookingConfirmationPageState extends State<BookingConfirmationPage> {
   Ticket ticket;
   String userId = '';
   String userName = '';
+
+  List<String> bookedSeat;
   @override
   Widget build(BuildContext context) {
-    ticket = ModalRoute.of(context).settings.arguments;
+    var argument =
+        ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
+    ticket = argument['ticket'];
+    bookedSeat = argument['booked_seat'] ?? [];
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -196,7 +201,8 @@ class _BookingConfirmationPageState extends State<BookingConfirmationPage> {
       dateOfBuying: DateTime.now(),
     );
 
-    // FirebaseStorageServices.addUserTicket(ticket);
+    await FirebaseStorageServices.addUserTicket(ticket, oldSeat: bookedSeat);
+    print('addededd');
     // var listTicket = await FirebaseStorageServices.getUserTicket(userId);
 
     // for (var item in listTicket) {
