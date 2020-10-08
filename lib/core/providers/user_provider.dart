@@ -1,13 +1,16 @@
 import 'package:flutter/cupertino.dart';
+import 'package:mov_id/core/models/ticket.dart';
 import 'package:mov_id/core/models/user.dart';
+import 'package:mov_id/core/models/user_transaction.dart';
 import 'package:mov_id/core/services/firebase_storage_services.dart';
 
 class UserProvider extends ChangeNotifier {
+  //* user App
   UserApp _userApp;
   UserApp get userApp => _userApp;
 
-  void getUser(String uid) async {
-    _userApp = await FirebaseStorageServices.getData(uid);
+  void getUser({@required String userId}) async {
+    _userApp = await FirebaseStorageServices.getUserData(userId: userId);
     notifyListeners();
   }
 
@@ -18,7 +21,7 @@ class UserProvider extends ChangeNotifier {
       profilePicture: profilePicture,
     );
     _userApp = newData;
-    await FirebaseStorageServices.setData(newData);
+    await FirebaseStorageServices.setUserData(userApp: newData);
     notifyListeners();
   }
 

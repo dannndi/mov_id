@@ -1,7 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -24,16 +23,25 @@ class _HomePageState extends State<HomePage> {
   User fireUser;
   UserApp userApp;
   Color _backGroundColor = ConstantVariable.accentColor4;
+  Color _appBarColor = ConstantVariable.accentColor4;
+  Color _appBarTextColor = Colors.white;
+  double _elevation = 0;
 
   ScrollController _scrollController = ScrollController();
   _scrollListner() {
     if (_scrollController.offset >= 60) {
       setState(() {
         _backGroundColor = Colors.transparent;
+        _appBarColor = Colors.white;
+        _appBarTextColor = Colors.black;
+        _elevation = 2;
       });
     } else {
       setState(() {
         _backGroundColor = ConstantVariable.accentColor4;
+        _appBarColor = ConstantVariable.accentColor4;
+        _appBarTextColor = Colors.white;
+        _elevation = 0;
       });
     }
   }
@@ -47,24 +55,62 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     fireUser = Provider.of<User>(context);
-    return Stack(
-      children: [
-        _background(context),
-        SafeArea(
-          child: SingleChildScrollView(
-            controller: _scrollController,
-            child: Column(
-              children: [
-                SizedBox(height: 40),
-                _balanceInfo(context),
-                _nowPlaying(context),
-                _comingSoon(context),
-              ],
-            ),
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        leading: Container(
+          padding: EdgeInsets.all(8),
+          child: Image.asset(
+            'assets/images/logo.png',
+            width: 25,
+            height: 25,
           ),
         ),
-        _appbar(context),
-      ],
+        centerTitle: true,
+        title: Text(
+          'Movie ID',
+          style: ConstantVariable.textFont.copyWith(
+            color: _appBarTextColor,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        backgroundColor: _appBarColor,
+        elevation: _elevation,
+        actions: [
+          IconButton(
+            iconSize: 25,
+            icon: Icon(
+              MdiIcons.bellOutline,
+              color: _appBarTextColor,
+            ),
+            onPressed: () {
+              errorMessage(
+                message: 'Not ready yet !',
+                context: context,
+              );
+            },
+          ),
+        ],
+      ),
+      body: Stack(
+        children: [
+          _background(context),
+          SafeArea(
+            child: SingleChildScrollView(
+              controller: _scrollController,
+              child: Column(
+                children: [
+                  _balanceInfo(context),
+                  _nowPlaying(context),
+                  _comingSoon(context),
+                ],
+              ),
+            ),
+          ),
+          // _appbar(context),
+        ],
+      ),
     );
   }
 
@@ -86,18 +132,10 @@ class _HomePageState extends State<HomePage> {
     return Container(
       padding: EdgeInsets.only(top: 25),
       height: 75,
-      color: ConstantVariable.accentColor4,
+      color: _appBarColor,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Container(
-            padding: EdgeInsets.all(8),
-            child: Image.asset(
-              'assets/images/logo.png',
-              width: 25,
-              height: 25,
-            ),
-          ),
           Text(
             'Movie ID',
             style: ConstantVariable.textFont.copyWith(
@@ -105,19 +143,6 @@ class _HomePageState extends State<HomePage> {
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
-          ),
-          IconButton(
-            iconSize: 25,
-            icon: Icon(
-              MdiIcons.bellOutline,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              errorMessage(
-                message: 'Not ready yet !',
-                context: context,
-              );
-            },
           ),
         ],
       ),
@@ -151,10 +176,13 @@ class _HomePageState extends State<HomePage> {
           //*
           userApp = userProvider.userApp;
           if (userApp == null) {
-            userProvider.getUser(fireUser.uid);
-            return SpinKitThreeBounce(
-              color: ConstantVariable.accentColor1,
-              size: 15,
+            userProvider.getUser(userId: fireUser.uid);
+            return Container(
+              height: 130,
+              child: SpinKitThreeBounce(
+                color: ConstantVariable.accentColor1,
+                size: 15,
+              ),
             );
           }
 

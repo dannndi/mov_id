@@ -3,7 +3,6 @@ import 'package:mov_id/core/models/cinema.dart';
 import 'package:mov_id/core/models/movie_detail.dart';
 
 class Ticket extends Equatable {
-  final String userId;
   final String userName;
   final MovieDetail movieDetail;
   final Cinema cinema;
@@ -14,7 +13,6 @@ class Ticket extends Equatable {
   final DateTime dateOfBuying;
 
   Ticket({
-    this.userId,
     this.userName,
     this.movieDetail,
     this.cinema,
@@ -26,7 +24,6 @@ class Ticket extends Equatable {
   });
 
   Ticket copywith({
-    String id,
     String username,
     MovieDetail movieDetail,
     Cinema cinema,
@@ -38,7 +35,6 @@ class Ticket extends Equatable {
   }) {
     return Ticket(
       userName: username ?? this.userName,
-      userId: id ?? this.userId,
       movieDetail: movieDetail ?? this.movieDetail,
       cinema: cinema ?? this.cinema,
       bookedDate: bookedDate ?? this.bookedDate,
@@ -52,7 +48,6 @@ class Ticket extends Equatable {
   @override
   List<Object> get props => [
         userName,
-        userId,
         movieDetail,
         cinema,
         bookedDate,

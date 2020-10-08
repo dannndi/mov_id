@@ -1,11 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mov_id/core/providers/movie_provider.dart';
+import 'package:mov_id/core/providers/ticket_provider.dart';
+import 'package:mov_id/core/providers/transaction_provider.dart';
 import 'package:mov_id/core/providers/user_provider.dart';
 import 'package:mov_id/core/services/firebase_auth_services.dart';
 import 'package:mov_id/ui/pages/booking_confirmation_page.dart';
+import 'package:mov_id/ui/pages/booking_sucess_page.dart';
 import 'package:mov_id/ui/pages/login_page.dart';
 import 'package:mov_id/ui/pages/main_page.dart';
 import 'package:mov_id/ui/pages/movie_detail_page.dart';
@@ -41,6 +45,8 @@ class MyApp extends StatelessWidget {
         StreamProvider<User>.value(value: FirebaseAuthServices.userStream),
         ChangeNotifierProvider(create: (context) => MovieProvider()),
         ChangeNotifierProvider(create: (context) => UserProvider()),
+        ChangeNotifierProvider(create: (context) => TicketProvider()),
+        ChangeNotifierProvider(create: (context) => TransactionProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -61,6 +67,7 @@ class MyApp extends StatelessWidget {
           '/movie_detail_page': (context) => MovieDetailPage(),
           '/select_seat_page': (context) => SelectSeatPage(),
           '/booking_confirmation_page': (context) => BookingConfirmationPage(),
+          '/booking_success_page': (context) => BookingSuccessPage(),
         },
       ),
     );

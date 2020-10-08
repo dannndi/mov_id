@@ -44,7 +44,7 @@ class FirebaseAuthServices {
         balance: 1000000,
       );
       //set userApp data to Firebase Storage
-      await FirebaseStorageServices.setData(userApp);
+      await FirebaseStorageServices.setUserData(userApp: userApp);
       //return userApp data
       return AuthResult(userId: _result.user.uid);
     } on FirebaseAuthException catch (e) {

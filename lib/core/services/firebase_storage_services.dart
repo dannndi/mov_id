@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:mov_id/core/models/cinema.dart';
 import 'package:mov_id/core/models/ticket.dart';
 import 'package:mov_id/core/models/user.dart';
@@ -6,16 +7,16 @@ import 'package:mov_id/core/providers/movie_provider.dart';
 import 'package:mov_id/core/services/movie_services.dart';
 
 class FirebaseStorageServices {
-  //base path colection for user
+  //* ================================================================
+  //* Methode for modification on User
+  //* ================================================================
+  //*
+  // base path colection for user
   static var _userCollection = FirebaseFirestore.instance.collection('users');
-  //base path collection for all ticket (seat)
-  static var _ticketSeatCollection =
-      FirebaseFirestore.instance.collection('ticket_seat');
-
-  //set data can be add new data or replace existing data
-  static Future<void> setData(UserApp userApp) {
-    //future but not have to wait, because we don't wait anything from this proscess,
-    //it can be run on background though
+  // set data can be add new data or replace existing data
+  static Future<void> setUserData({@required UserApp userApp}) {
+    // future but not have to wait, because we don't wait anything from this proscess,
+    // it can be run on background though
     _userCollection.doc(userApp.id).set({
       'email': userApp.email,
       'fullName': userApp.name,
@@ -26,10 +27,10 @@ class FirebaseStorageServices {
     });
   }
 
-  static Future<UserApp> getData(String id) async {
-    var _doc = await _userCollection.doc(id).get();
+  static Future<UserApp> getUserData({@required String userId}) async {
+    var _doc = await _userCollection.doc(userId).get();
     return UserApp(
-      id: id,
+      id: userId,
       name: _doc.data()['fullName'],
       email: _doc.data()['email'],
       language: _doc.data()['language'],
@@ -41,10 +42,14 @@ class FirebaseStorageServices {
     );
   }
 
-  static Future<void> addUserTicket(Ticket ticket,
-      {List<String> oldSeat}) async {
+  //* ================================================================
+  //* Methode for modification on User Ticket and User Transaction
+  //* ================================================================
+  //*
+  static Future<void> addUserTicket(
+      {@required String userId, @required Ticket ticket}) async {
     var _userTicketCollection =
-        _userCollection.doc(ticket.userId).collection('ticket');
+        _userCollection.doc(userId).collection('ticket');
     await _userTicketCollection.doc().set({
       'username': ticket.userName,
       'movie_id': ticket.movieDetail.id,
@@ -54,12 +59,9 @@ class FirebaseStorageServices {
       'total_price': ticket.totalPrice,
       'date_of_buying': ticket.dateOfBuying.millisecondsSinceEpoch,
     });
-
-    //set booked ticket to global
-    await setTicket(ticket: ticket, oldSeat: oldSeat);
   }
 
-  static Future<List<Ticket>> getUserTicket(String userId) async {
+  static Future<List<Ticket>> getUserTicket({@required String userId}) async {
     var _userTicketCollection =
         _userCollection.doc(userId).collection('ticket');
 
@@ -91,7 +93,38 @@ class FirebaseStorageServices {
     return ticketList;
   }
 
-  static Future<void> setTicket({Ticket ticket, List<String> oldSeat}) async {
+  static Future<void> addUserTransaction({
+    @required String userId,
+    Ticket ticket,
+    int balance,
+  }) async {
+    var _userTransactionCollection =
+        _userCollection.doc(userId).collection('transaction');
+
+    var title = ticket != null ? 'Buy Ticket' : 'Top up';
+    var amount = ticket != null ? '${ticket.totalPrice}' : '$balance';
+    var subTitle =
+        ticket != null ? '${ticket.movieDetail.title}' : 'Top up my wallet';
+    var date = DateTime.now().millisecondsSinceEpoch.toString();
+
+    await _userTransactionCollection.doc().set({
+      'title': title,
+      'amount': amount,
+      'sub_title': subTitle,
+      'date': date,
+    });
+  }
+
+  //* ================================================================
+  //* Methode for modification on Cinema Ticket
+  //* ================================================================
+  //*
+  //base path collection for all ticket (seat)
+  static var _ticketSeatCollection =
+      FirebaseFirestore.instance.collection('cinema');
+
+  static Future<void> setBookedSeat(
+      {@required Ticket ticket, @required List<String> oldSeat}) async {
     var cinema = ticket.cinema.name;
     var movieId = ticket.movieDetail.id.toString();
     var dateTime = ticket.bookedDate.millisecondsSinceEpoch.toString();
@@ -108,7 +141,7 @@ class FirebaseStorageServices {
     );
   }
 
-  static Future<List<String>> getTicket(Ticket ticket) async {
+  static Future<List<String>> getBookedSeat({@required Ticket ticket}) async {
     var seats = List<String>();
     var cinema = ticket.cinema.name;
     var movieId = ticket.movieDetail.id.toString();

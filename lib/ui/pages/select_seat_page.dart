@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mov_id/core/base/constant_variable.dart';
 import 'package:mov_id/core/models/ticket.dart';
+import 'package:mov_id/ui/widgets/error_message.dart';
 import 'package:mov_id/ui/widgets/selectable_box.dart';
 
 class SelectSeatPage extends StatefulWidget {
@@ -24,6 +25,7 @@ class _SelectSeatPageState extends State<SelectSeatPage> {
 
     ticket = argument['ticket'];
     _bookedSeat = argument['booked_seats'] as List<String> ?? [];
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -246,9 +248,16 @@ class _SelectSeatPageState extends State<SelectSeatPage> {
   void _goToComfirmationPage(BuildContext context) {
     _selectedSeat.sort();
     ticket = ticket.copywith(totalPrice: totalPrice, seats: _selectedSeat);
-    Navigator.pushNamed(context, '/booking_confirmation_page', arguments: {
-      'ticket': ticket,
-      'booked_seat': _bookedSeat,
-    });
+    if (_selectedSeat.length != 0) {
+      Navigator.pushNamed(context, '/booking_confirmation_page', arguments: {
+        'ticket': ticket,
+        'booked_seat': _bookedSeat,
+      });
+    } else {
+      errorMessage(
+        message: 'Please select seat to watch first !',
+        context: context,
+      );
+    }
   }
 }

@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:mov_id/core/base/constant_variable.dart';
@@ -24,7 +23,6 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
   String title;
   Color _appbarColor = Colors.transparent;
   Color _titleColor = Colors.transparent;
-  Color _arrowColor = Colors.black;
 
   ScrollController _scrollController = ScrollController();
 
@@ -42,15 +40,13 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
   void _scrollListner() {
     if (_scrollController.offset > 100) {
       setState(() {
-        _appbarColor = ConstantVariable.accentColor4;
-        _titleColor = Colors.white;
-        _arrowColor = Colors.white;
+        _appbarColor = Colors.white;
+        _titleColor = Colors.black;
       });
     } else {
       setState(() {
         _appbarColor = Colors.transparent;
         _titleColor = Colors.transparent;
-        _arrowColor = Colors.black;
         title = null;
       });
     }
@@ -80,7 +76,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
-            color: _arrowColor,
+            color: Colors.black,
           ),
           onPressed: () {
             Navigator.pop(context);
@@ -484,7 +480,8 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
       );
 
       //* Navigate
-      var bookedSeat = await FirebaseStorageServices.getTicket(ticket);
+      var bookedSeat =
+          await FirebaseStorageServices.getBookedSeat(ticket: ticket);
 
       Navigator.pushNamed(context, '/select_seat_page', arguments: {
         'ticket': ticket,

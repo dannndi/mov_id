@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:mov_id/core/base/constant_variable.dart';
 import 'package:mov_id/core/models/ticket.dart';
+import 'package:mov_id/core/providers/ticket_provider.dart';
+import 'package:mov_id/core/providers/transaction_provider.dart';
 import 'package:mov_id/core/providers/user_provider.dart';
-import 'package:mov_id/core/services/firebase_storage_services.dart';
 import 'package:mov_id/ui/widgets/generate_rating_stars.dart';
 import 'package:provider/provider.dart';
 import '../../core/extensions/datetime_extension.dart';
@@ -16,8 +18,8 @@ class BookingConfirmationPage extends StatefulWidget {
 
 class _BookingConfirmationPageState extends State<BookingConfirmationPage> {
   Ticket ticket;
-  String userId = '';
   String userName = '';
+  bool _isLoading = false;
 
   List<String> bookedSeat;
   @override
@@ -88,127 +90,168 @@ class _BookingConfirmationPageState extends State<BookingConfirmationPage> {
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: Consumer<UserProvider>(
-        builder: (context, userProvider, _) {
-          //get id and user name
-          userId = userProvider.userApp.id;
-          userName = userProvider.userApp.name;
+      floatingActionButton: _isLoading
+          ? Container(
+              height: 50,
+              child: SpinKitThreeBounce(
+                color: Color(0xFFf283b7),
+                size: 15,
+              ),
+            )
+          //Button Login
+          : Consumer3<UserProvider, TicketProvider, TransactionProvider>(
+              builder: (
+                context,
+                userProvider,
+                ticketProvider,
+                transactionProvider,
+                _,
+              ) {
+                //get id and user name
+                userName = userProvider.userApp.name;
 
-          return Container(
-            height: 165,
-            margin: EdgeInsets.symmetric(horizontal: 20),
-            padding: EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            alignment: Alignment.bottomLeft,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  height: 30,
-                  child: Row(
+                return Container(
+                  height: 165,
+                  margin: EdgeInsets.symmetric(horizontal: 20),
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  alignment: Alignment.bottomLeft,
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'Your Wallet',
-                        style: ConstantVariable.textFont.copyWith(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
+                      Container(
+                        height: 30,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Your Wallet',
+                              style: ConstantVariable.textFont.copyWith(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              NumberFormat.currency(
+                                locale: 'id_ID',
+                                decimalDigits: 0,
+                                symbol: 'IDR ',
+                              ).format(userProvider.userApp.balance),
+                              style: ConstantVariable.textFont.copyWith(
+                                fontSize: 14,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      Text(
-                        NumberFormat.currency(
-                          locale: 'id_ID',
-                          decimalDigits: 0,
-                          symbol: 'IDR ',
-                        ).format(userProvider.userApp.balance),
-                        style: ConstantVariable.textFont.copyWith(
-                          fontSize: 14,
+                      Divider(),
+                      Container(
+                        height: 30,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Total',
+                              style: ConstantVariable.textFont.copyWith(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              NumberFormat.currency(
+                                locale: 'id_ID',
+                                decimalDigits: 0,
+                                symbol: 'IDR ',
+                              ).format(ticket.totalPrice),
+                              style: ConstantVariable.textFont.copyWith(
+                                fontSize: 14,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        height: 50,
+                        width: ConstantVariable.deviceWidth(context),
+                        child: RaisedButton(
+                          elevation: 0,
+                          color:
+                              userProvider.userApp.balance > ticket.totalPrice
+                                  ? ConstantVariable.accentColor2
+                                  : Colors.red,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          onPressed: () {
+                            userProvider.userApp.balance > ticket.totalPrice
+                                ? _confirmBooking(
+                                    userProvider,
+                                    ticketProvider,
+                                    transactionProvider,
+                                  )
+                                : _topUpWallet(context);
+                          },
+                          child: Text(
+                            userProvider.userApp.balance > ticket.totalPrice
+                                ? 'Confirm Booking'
+                                : 'Top up Wallet',
+                            style: ConstantVariable.textFont.copyWith(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
                       ),
                     ],
                   ),
-                ),
-                Divider(),
-                Container(
-                  height: 30,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Total',
-                        style: ConstantVariable.textFont.copyWith(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        NumberFormat.currency(
-                          locale: 'id_ID',
-                          decimalDigits: 0,
-                          symbol: 'IDR ',
-                        ).format(ticket.totalPrice),
-                        style: ConstantVariable.textFont.copyWith(
-                          fontSize: 14,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  height: 50,
-                  width: ConstantVariable.deviceWidth(context),
-                  child: RaisedButton(
-                    elevation: 0,
-                    color: userProvider.userApp.balance > ticket.totalPrice
-                        ? ConstantVariable.accentColor2
-                        : Colors.red,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    onPressed: () {
-                      userProvider.userApp.balance > ticket.totalPrice
-                          ? _confirmBooking(context)
-                          : _topUpWallet(context);
-                    },
-                    child: Text(
-                      userProvider.userApp.balance > ticket.totalPrice
-                          ? 'Confirm Booking'
-                          : 'Top up Wallet',
-                      style: ConstantVariable.textFont.copyWith(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+                );
+              },
             ),
-          );
-        },
-      ),
     );
   }
 
-  void _confirmBooking(BuildContext context) async {
+  void _confirmBooking(
+    UserProvider userProvider,
+    TicketProvider ticketProvider,
+    TransactionProvider transactionProvider,
+  ) async {
     ticket = ticket.copywith(
-      id: userId,
       username: userName,
       dateOfBuying: DateTime.now(),
     );
 
-    await FirebaseStorageServices.addUserTicket(ticket, oldSeat: bookedSeat);
-    print('addededd');
-    // var listTicket = await FirebaseStorageServices.getUserTicket(userId);
+    setState(() {
+      _isLoading = true;
+    });
 
-    // for (var item in listTicket) {
-    //   print(item.bookingCode);
-    //   print(ticket.userId);
-    // }
+    //await for storing ticket to firebase
+    await ticketProvider.buyTicket(
+      ticket: ticket,
+      oldSeat: bookedSeat,
+      userId: userProvider.userApp.id,
+    );
+
+    //await for storing transaction to firebase
+    await transactionProvider.addTransaction(
+      userId: userProvider.userApp.id,
+      ticket: ticket,
+    );
+
+    var newBalance = userProvider.userApp.balance - ticket.totalPrice;
+    await userProvider.updateUser(
+      balance: newBalance,
+    );
+
+    //go to success page
+    Navigator.pushNamed(
+      context,
+      '/booking_success_page',
+    );
   }
 
   void _topUpWallet(BuildContext context) {
