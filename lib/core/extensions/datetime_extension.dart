@@ -57,15 +57,15 @@ extension DateTimeExtension on DateTime {
         return "Juny";
       case 7:
         return "July";
-      case 7:
+      case 8:
         return "August";
-      case 7:
+      case 9:
         return "September";
-      case 7:
+      case 10:
         return "Oktober";
-      case 7:
+      case 11:
         return "November";
-      case 7:
+      case 12:
         return "Desember";
       default:
         return "None";
@@ -76,7 +76,11 @@ extension DateTimeExtension on DateTime {
     return "${this.shortDayName} ${this.day}, ${this.hour}:00";
   }
 
+  String get time24 {
+    return "${this.hour}:00";
+  }
+
   String get fullDate {
-    return "${this.fullDayName}, ${this.day} ${monthName} ${this.year}";
+    return "${this.fullDayName}, ${this.day} $monthName ${this.year}";
   }
 }

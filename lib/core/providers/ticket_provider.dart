@@ -4,7 +4,7 @@ import 'package:mov_id/core/services/firebase_storage_services.dart';
 
 class TicketProvider extends ChangeNotifier {
   //* user Ticket
-  List<Ticket> _userTicket = [];
+  List<Ticket> _userTicket;
   List<Ticket> get userTicket => _userTicket;
 
   Future<void> buyTicket(
@@ -23,8 +23,11 @@ class TicketProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getTicket({String userId}) async {
+  void getTicket({@required String userId}) async {
     _userTicket = await FirebaseStorageServices.getUserTicket(userId: userId);
+    _userTicket.sort(
+      (ticket1, ticket2) => ticket1.bookedDate.compareTo(ticket2.bookedDate),
+    );
     notifyListeners();
   }
 
