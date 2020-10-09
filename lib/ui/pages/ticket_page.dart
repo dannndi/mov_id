@@ -20,7 +20,6 @@ class _TicketPageState extends State<TicketPage> {
   @override
   Widget build(BuildContext context) {
     fireUser = Provider.of<User>(context);
-    // Provider.of<TicketProvider>(context, listen: false).clearTicket();
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -139,85 +138,92 @@ class _TicketPageState extends State<TicketPage> {
   }
 
   Widget _ticketItem(Ticket ticket) {
-    return Container(
-      margin: EdgeInsets.only(bottom: 10),
-      child: Row(
-        children: [
-          Container(
-            width: (ConstantVariable.deviceWidth(context) - 40) * 0.3,
-            height: 120,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: NetworkImage(
-                  ConstantVariable.imageBaseUrl
-                      .replaceAll('%size%', 'w154')
-                      .replaceAll(
-                        '/%path%',
-                        ticket.movieDetail.posterPath,
-                      ),
-                ),
-              ),
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(10),
-                bottomLeft: Radius.circular(10),
-              ),
-            ),
-            alignment: Alignment.centerRight,
-            child: Container(
+    return GestureDetector(
+      onTap: () {
+        // navigate
+        Navigator.pushNamed(context, '/ticket_detail_page', arguments: ticket);
+      },
+      child: Container(
+        margin: EdgeInsets.only(bottom: 10),
+        color: Colors.transparent,
+        child: Row(
+          children: [
+            Container(
               width: (ConstantVariable.deviceWidth(context) - 40) * 0.3,
               height: 120,
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [Colors.white, Colors.white70, Colors.transparent],
-                  begin: Alignment.centerRight,
-                  end: Alignment.centerLeft,
-                  stops: [0, 0.2, 0.8],
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: NetworkImage(
+                    ConstantVariable.imageBaseUrl
+                        .replaceAll('%size%', 'w154')
+                        .replaceAll(
+                          '/%path%',
+                          ticket.movieDetail.posterPath,
+                        ),
+                  ),
+                ),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                  bottomLeft: Radius.circular(10),
+                ),
+              ),
+              alignment: Alignment.centerRight,
+              child: Container(
+                width: (ConstantVariable.deviceWidth(context) - 40) * 0.3,
+                height: 120,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Colors.white, Colors.white70, Colors.transparent],
+                    begin: Alignment.centerRight,
+                    end: Alignment.centerLeft,
+                    stops: [0, 0.2, 0.8],
+                  ),
                 ),
               ),
             ),
-          ),
-          Container(
-            width: (ConstantVariable.deviceWidth(context) - 40) * 0.7,
-            height: 120,
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                bottomRight: Radius.circular(10),
-                topRight: Radius.circular(10),
+            Container(
+              width: (ConstantVariable.deviceWidth(context) - 40) * 0.7,
+              height: 120,
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  bottomRight: Radius.circular(10),
+                  topRight: Radius.circular(10),
+                ),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    ticket.movieDetail.title,
+                    style: ConstantVariable.textFont.copyWith(
+                      color: Colors.black,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    ticket.cinema.name,
+                    style: ConstantVariable.textFont.copyWith(
+                      color: Colors.black,
+                      fontSize: 14,
+                    ),
+                  ),
+                  Text(
+                    '${ticket.bookedDate.fullDate} \nOn ${ticket.bookedDate.time24}',
+                    style: ConstantVariable.textFont.copyWith(
+                      color: Colors.black,
+                      fontSize: 14,
+                    ),
+                  ),
+                ],
               ),
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  ticket.movieDetail.title,
-                  style: ConstantVariable.textFont.copyWith(
-                    color: Colors.black,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  ticket.cinema.name,
-                  style: ConstantVariable.textFont.copyWith(
-                    color: Colors.black,
-                    fontSize: 14,
-                  ),
-                ),
-                Text(
-                  '${ticket.bookedDate.fullDate} \nOn ${ticket.bookedDate.time24}',
-                  style: ConstantVariable.textFont.copyWith(
-                    color: Colors.black,
-                    fontSize: 14,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
