@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mov_id/core/models/cinema.dart';
 import 'package:mov_id/core/models/ticket.dart';
 import 'package:mov_id/core/models/user.dart';
+import 'package:mov_id/core/models/user_transaction.dart';
 import 'package:mov_id/core/providers/movie_provider.dart';
 import 'package:mov_id/core/services/movie_services.dart';
 
@@ -113,6 +114,33 @@ class FirebaseStorageServices {
       'sub_title': subTitle,
       'date': date,
     });
+  }
+
+  static Future<List<UserTransaction>> getUserTransaction(
+      {@required String userId}) async {
+    var _userTransactionCollection =
+        _userCollection.doc(userId).collection('transaction');
+
+    var result = await _userTransactionCollection.get();
+    var docs = result.docs;
+    List<UserTransaction> transactionList = [];
+    for (var doc in docs) {
+      //add ticket to list
+      transactionList.add(
+        UserTransaction(
+          userId: doc.reference.id,
+          amount: int.tryParse(doc.data()['amount']),
+          title: doc.data()['title'],
+          subTitle: doc.data()['sub_title'],
+          dateTime: DateTime.fromMillisecondsSinceEpoch(
+            int.tryParse(
+              doc.data()['date'],
+            ),
+          ),
+        ),
+      );
+    }
+    return transactionList;
   }
 
   //* ================================================================

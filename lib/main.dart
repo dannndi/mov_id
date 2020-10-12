@@ -18,6 +18,8 @@ import 'package:mov_id/ui/pages/register_page.dart';
 import 'package:mov_id/ui/pages/register_preference_page.dart';
 import 'package:mov_id/ui/pages/select_seat_page.dart';
 import 'package:mov_id/ui/pages/ticket_detail_page.dart';
+import 'package:mov_id/ui/pages/top_up_page.dart';
+import 'package:mov_id/ui/pages/top_up_success_page.dart';
 import 'package:mov_id/ui/pages/wrapper.dart';
 import 'package:provider/provider.dart';
 
@@ -70,6 +72,8 @@ class MyApp extends StatelessWidget {
           '/booking_confirmation_page': (context) => BookingConfirmationPage(),
           '/booking_success_page': (context) => BookingSuccessPage(),
           '/ticket_detail_page': (context) => TicketDetailPage(),
+          '/top_up_page': (context) => TopUpPage(),
+          '/top_up_success_page': (context) => TopUpSuccessPage(),
         },
       ),
     );

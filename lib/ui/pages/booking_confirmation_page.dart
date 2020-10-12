@@ -250,9 +250,11 @@ class _BookingConfirmationPageState extends State<BookingConfirmationPage> {
     //get newest ticket
     ticketProvider.getTicket(userId: userProvider.userApp.id);
     //go to success page
-    Navigator.pushNamed(
+
+    Navigator.pushNamedAndRemoveUntil(
       context,
       '/booking_success_page',
+      ModalRoute.withName('/main_page'),
     );
   }
 

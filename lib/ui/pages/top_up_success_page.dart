@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mov_id/core/base/constant_variable.dart';
 
-class BookingSuccessPage extends StatefulWidget {
+class TopUpSuccessPage extends StatefulWidget {
   @override
-  _BookingSuccessPageState createState() => _BookingSuccessPageState();
+  _TopUpSuccessPageState createState() => _TopUpSuccessPageState();
 }
 
-class _BookingSuccessPageState extends State<BookingSuccessPage> {
+class _TopUpSuccessPageState extends State<TopUpSuccessPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +41,7 @@ class _BookingSuccessPageState extends State<BookingSuccessPage> {
               Container(
                 height: 100,
                 child: Image(
-                  image: AssetImage('assets/images/ticket_done.png'),
+                  image: AssetImage('assets/images/top_up_done.png'),
                 ),
               ),
               SizedBox(height: 40),
@@ -54,7 +54,7 @@ class _BookingSuccessPageState extends State<BookingSuccessPage> {
               ),
               SizedBox(height: 20),
               Text(
-                'You have successfully bought the Ticket, \n please check on menu ticket',
+                'You have successfully top up your Balance, \n have a good day',
                 style: ConstantVariable.textFont.copyWith(
                   fontSize: 14,
                 ),

@@ -266,10 +266,7 @@ class _HomePageState extends State<HomePage> {
                         borderRadius: BorderRadius.circular(15),
                       ),
                       onPressed: () {
-                        errorMessage(
-                          message: 'Not ready yet !',
-                          context: context,
-                        );
+                        Navigator.pushNamed(context, '/top_up_page');
                       },
                       icon: Icon(
                         MdiIcons.walletPlusOutline,

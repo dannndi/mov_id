@@ -5,8 +5,8 @@ import 'package:mov_id/core/services/firebase_storage_services.dart';
 
 class TransactionProvider extends ChangeNotifier {
   //* user Transaction
-  List<UserTransaction> _userTransasction;
-  List<UserTransaction> get userTransaction => _userTransasction;
+  List<UserTransaction> _userTransaction;
+  List<UserTransaction> get userTransaction => _userTransaction;
 
   Future<void> addTransaction({
     @required String userId,
@@ -17,11 +17,18 @@ class TransactionProvider extends ChangeNotifier {
     await FirebaseStorageServices.addUserTransaction(
       userId: userId,
       balance: balance,
+      ticket: ticket,
     );
     notifyListeners();
   }
 
+  void getTransaction(String id) async {
+    _userTransaction =
+        await FirebaseStorageServices.getUserTransaction(userId: id);
+    notifyListeners();
+  }
+
   void clearTransaction() {
-    _userTransasction = null;
+    _userTransaction = null;
   }
 }
