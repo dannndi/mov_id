@@ -247,8 +247,9 @@ class _BookingConfirmationPageState extends State<BookingConfirmationPage> {
       balance: newBalance,
     );
 
-    //get newest ticket
+    //get newest ticket and transaction
     ticketProvider.getTicket(userId: userProvider.userApp.id);
+    transactionProvider.getTransaction(userProvider.userApp.id);
     //go to success page
 
     Navigator.pushNamedAndRemoveUntil(

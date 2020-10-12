@@ -196,6 +196,7 @@ class _TopUpPageState extends State<TopUpPage> {
       balance: _selectedMoney,
     );
 
+    await transactionProvider.getTransaction(userProvider.userApp.id);
     setState(() {
       _isLoading = false;
     });
