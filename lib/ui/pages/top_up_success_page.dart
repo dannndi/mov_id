@@ -24,7 +24,7 @@ class _TopUpSuccessPageState extends State<TopUpSuccessPage> {
           },
         ),
         title: Text(
-          'Booking Successfull',
+          'Top Up Successfull',
           style: ConstantVariable.textFont.copyWith(
             fontSize: 17,
             fontWeight: FontWeight.bold,

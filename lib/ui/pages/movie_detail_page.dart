@@ -165,7 +165,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                       Text(
                         movie.genres.join(', '),
                         style: ConstantVariable.textFont.copyWith(),
-                        maxLines: 1,
+                        maxLines: 3,
                         textAlign: TextAlign.start,
                         overflow: TextOverflow.clip,
                       ),
