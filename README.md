@@ -1,16 +1,20 @@
-# mov_id
+# Movie ID
 
-A new Flutter project.
+<p><img  src="https://i.ibb.co/YpYXcLV/Poster-Movie-ID.jpg"/></p>
 
-## Getting Started
+Movie ID adalah Aplikasi Simulasi pemesanan tiket bioskop secara online
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## App Feature
+   * Login Register with Email
+   * Pemesanan Tiket Bioskop
+   * Top Up Wallet
+   * Melihat Ticket yang sudah di pesan
+   * Melihat transaksi terbaru
+   * Mengganti Photo profile
+   
+   
+## Resource
+   * Database       : Firebase
+   * Movie Database : https://www.themoviedb.org/
+   * Course         : https://buildwithangga.com/kelas/flutter-mobile-apps-developer
+   * Desain         : https://dribbble.com/shots/6153677-Movie-App-Exploration-Full/attachments
